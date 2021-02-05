@@ -3,12 +3,12 @@
 
 #include <assert.h>
 #include "gluethread/glthread.h"
+#include "net.h"
 
 #define NODE_NAME_SIZE 16
 #define IF_NAME_SIZE 16
 #define GRAPH_NAME_SIZE 16
 #define MAX_INTERFACE_NO 10
-#define NULL 0
 
 typedef struct node_ node_t;
 typedef struct link_ link_t;
@@ -18,11 +18,13 @@ typedef struct interface_{
     char* interface_name[IF_NAME_SIZE];
     node_t *node;
     link_t *link;
+    intf_nw_props_t intf_nw_props;
 } interface_t;
 
 struct node_{
     char *node_name[NODE_NAME_SIZE];
     interface_t *interfaces[MAX_INTERFACE_NO];
+    node_nw_prop_t node_nw_prop;
     glthread_t node_glue;
 };
 
@@ -101,7 +103,11 @@ static inline node_t *get_node_by_node_name(graph_t *topo, char *node_name){
 
 
 void dump_graph(graph_t *graph);
+void dump_nw_graph(graph_t *graph);
 void dump_node(node_t *node);
+void dump_node_nw(node_t *node);
 void dump_interface(interface_t *interface);
+void dump_node_nwprps(node_t *node);
+void dump_interface_nwprps(interface_t *interface);
 
 #endif /* __NW_GRAPH_ */
