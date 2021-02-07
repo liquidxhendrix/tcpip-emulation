@@ -1,5 +1,8 @@
 #include "graph.h"
 
+extern void
+network_start_pkt_receiver_thread(graph_t *topo);
+
 graph_t *
 build_first_topo(){
 
@@ -46,6 +49,8 @@ build_first_topo(){
     intfa = get_node_if_by_name(R1_re,"eth0/1");
     interface_assign_mac_address(intfa);
     node_set_intf_ip_address(R1_re,"eth0/1","10.0.47.11",24);
+
+    network_start_pkt_receiver_thread(topo);
 
     return topo;
 }

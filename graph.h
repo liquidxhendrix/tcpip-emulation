@@ -25,6 +25,8 @@ struct node_{
     char *node_name[NODE_NAME_SIZE];
     interface_t *interfaces[MAX_INTERFACE_NO];
     node_nw_prop_t node_nw_prop;
+    unsigned int udp_port_number;
+    int udp_sock_fd;
     glthread_t node_glue;
 };
 

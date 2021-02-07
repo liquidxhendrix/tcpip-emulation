@@ -1,6 +1,7 @@
 #include "graph.h"
 #include <memory.h>
 #include <stdio.h>
+#include "comm.h"
 #include "CommandParser/libcli.h"
 
 extern graph_t *build_first_topo();
@@ -43,6 +44,15 @@ main(int argc, char **argv){
     nw_init_cli();
     
     topo = build_first_topo();
+
+    sleep(1);
+
+    node_t *node = get_node_by_node_name(topo,"R0_re");
+    interface_t *intf = get_node_if_by_name(node,"eth0/0");
+
+    char msg[] = "Hello! From Zhikai";
+
+    send_pkt_out(msg,sizeof(msg),intf);
 
     start_shell(); 
 

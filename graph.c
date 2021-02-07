@@ -3,6 +3,9 @@
 #include <string.h>
 #include <stdio.h>
 
+extern 
+init_udp_socket(node_t *node);
+
 graph_t *create_new_graph(char* topology_name){
 
     graph_t *g = malloc(sizeof(graph_t));
@@ -21,6 +24,8 @@ node_t *create_graph_node(graph_t *graph, char *node_name){
     strcpy(node->node_name,node_name);
 
     init_glthread(&node->node_glue);
+
+    init_udp_socket(node);
 
     // Assignment #4 init network properties
     init_node_nw_prop(&node->node_nw_prop);
@@ -52,10 +57,10 @@ void insert_link_between_two_nodes(node_t *node1,
     
     //Copy the names
     strncpy(link->ifa.interface_name,from_if_name,16);
-    link->ifa.interface_name[16] = '\0';
+    link->ifa.interface_name[IF_NAME_SIZE-1] = '\0';
 
     strncpy(link->ifb.interface_name,to_if_name,16);
-    link->ifb.interface_name[16] = '\0';
+    link->ifb.interface_name[IF_NAME_SIZE-1] = '\0';
 
     //Set values
     link->cost=cost;

@@ -49,7 +49,7 @@ bool_t node_set_loopback_address(node_t *node, char *ip_addr){
     assert(node);
 
     strncpy(NODE_LB_ADDR(node),ip_addr,16);
-    NODE_LB_ADDR(node)[16]='/0';
+    NODE_LB_ADDR(node)[15]='/0';
     node->node_nw_prop.is_lb_addr_config=true;
 }
 
@@ -62,7 +62,7 @@ bool_t node_set_intf_ip_address(node_t *node, char *local_if, char *ip_addr, cha
     assert(intfp);
     
     strncpy(IF_IP(intfp),ip_addr,16);
-    IF_IP(intfp)[16]='/0';
+    IF_IP(intfp)[15]='/0';
     intfp->intf_nw_props.is_ipadd_config=true;
     intfp->intf_nw_props.mask=mask;
     return true;
@@ -135,5 +135,5 @@ unsigned int convert_ip_from_str_to_int(char *ipadd){
 
 unsigned int convert_ip_from_int_to_str(unsigned int ip_addr, char *output_buffer){
     inet_ntop(AF_INET, &ip_addr, output_buffer, 16);
-    output_buffer[16] = '/0';
+    output_buffer[15] = '/0';
 }

@@ -7,6 +7,7 @@ OBJS=gluethread/glthread.o \
 		  topologies.o	   \
 		  net.o			   \
 		  utils.o 		   \
+		  comm.o           \
 		  nwcli.o
 
 test.exe:testapp.o ${OBJS} CommandParser/libcli.a
@@ -29,6 +30,9 @@ net.o:net.c
 
 utils.o:utils.c
 	${CC} ${CFLAGS} -c -I . utils.c -o utils.o
+
+comm.o:comm.c
+	${CC} ${CFLAGS} -c -I . comm.c -o comm.o
 
 nwcli.o:nwcli.c
 	${CC} ${CFLAGS} -c -I . nwcli.c  -o nwcli.o
