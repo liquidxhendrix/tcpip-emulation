@@ -147,7 +147,7 @@ _send_pkt_out(int sock_fd, char *pkt_data, unsigned int pkt_size,
     dest_addr.sin_family = AF_INET;
     dest_addr.sin_port = dst_udp_port_no;
     dest_addr.sin_addr = *((struct in_addr *)host->h_addr);
-    
+
     rc = sendto(sock_fd, pkt_data, pkt_size, 0, 
             (struct sockaddr *)&dest_addr, sizeof(struct sockaddr));
     
@@ -211,4 +211,22 @@ network_start_pkt_receiver_thread(graph_t *topo){
     pthread_create(&recv_pkt_thread, &attr, 
                     _network_start_pkt_receiver_thread, 
                     (void *)topo);
+}
+
+int send_pkt_flood(node_t *node, interface_t *exempted_intf, char *pkt, unsigned int pkt_size){
+    int i ;
+    
+    for( i = 0 ; i < MAX_INTERFACE_NO; i++){
+        if(node->interfaces[i])
+        {
+            //Active interface found
+
+            if (0!=strcmp(node->interfaces[i]->interface_name,exempted_intf->interface_name)){
+                //Not exempted interface
+                 send_pkt_out(pkt,pkt_size,node->interfaces[i]);
+            }
+        }
+        
+    }
+    return -1;
 }

@@ -48,11 +48,12 @@ main(int argc, char **argv){
     sleep(1);
 
     node_t *node = get_node_by_node_name(topo,"R0_re");
-    interface_t *intf = get_node_if_by_name(node,"eth0/0");
+    interface_t *intf = get_node_if_by_name(node,"eth0/7");
 
     char msg[] = "Hello! From Zhikai";
 
-    send_pkt_out(msg,sizeof(msg),intf);
+    //send_pkt_out(msg,sizeof(msg),intf);
+    send_pkt_flood(node,intf,msg,sizeof(msg));
 
     start_shell(); 
 
