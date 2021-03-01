@@ -6,9 +6,24 @@
 
 extern graph_t *build_first_topo();
 extern void nw_init_cli();
+//For test
+extern char * 
+pkt_buffer_shift_right(char *pkt,unsigned int pkt_size,unsigned int max_buffer_size);
 
 graph_t *topo = NULL;
 
+int 
+main(int argc, char **argv){
+
+    nw_init_cli();
+    
+    topo = build_first_topo();
+
+    start_shell(); 
+    return 0;
+}
+
+/*
 int 
 main(int argc, char **argv){
 
@@ -45,17 +60,69 @@ main(int argc, char **argv){
     
     topo = build_first_topo();
 
-    sleep(1);
+    // --> Test Messaging
+    
+    // sleep(1);
 
-    node_t *node = get_node_by_node_name(topo,"R0_re");
-    interface_t *intf = get_node_if_by_name(node,"eth0/7");
+    // node_t *node = get_node_by_node_name(topo,"R0_re");
+    // interface_t *intf = get_node_if_by_name(node,"eth0/7");
 
-    char msg[] = "Hello! From Zhikai";
+    // char msg[] = "Hello! From Zhikai";
 
-    //send_pkt_out(msg,sizeof(msg),intf);
-    send_pkt_flood(node,intf,msg,sizeof(msg));
+    // //send_pkt_out(msg,sizeof(msg),intf);
+    // send_pkt_flood(node,intf,msg,sizeof(msg));
+    
+    // <-- Test Messaging End
+
+    // --> Test Packet Management
+
+    char pkt[MAX_PACKET_BUFFER_SIZE];
+
+    memset(pkt, 0, MAX_PACKET_BUFFER_SIZE);
+
+    char *pkt_with_aux_data = pkt;
+
+    memset(pkt_with_aux_data, 0xAA, IF_NAME_SIZE);
+
+    pkt_with_aux_data[IF_NAME_SIZE] = '\0';
+
+    memset(pkt_with_aux_data + IF_NAME_SIZE, 0xFF, 10);
+
+    int i=0;
+
+    printf("\nBefore Shift: \n");
+    
+    for(i=0;i<MAX_PACKET_BUFFER_SIZE;i++)
+    {
+        printf("%02x",(unsigned char)*(pkt_with_aux_data+i));
+    }
+
+    printf("\nAfter Shift: \n");
+
+    char *new_pkt = pkt_buffer_shift_right(pkt_with_aux_data + IF_NAME_SIZE, 10, MAX_PACKET_BUFFER_SIZE-IF_NAME_SIZE);
+
+    
+    for(i=0;i<MAX_PACKET_BUFFER_SIZE;i++)
+    {
+        printf("%02x",(unsigned char)*(pkt_with_aux_data+i));
+    }
+
+
+    printf("\nPayload: \n");
+
+     
+    for(i=0;i<10;i++)
+    {
+        printf("%02x",(unsigned char)*(new_pkt+i));
+    }
+    // Test Shift
+
+
+    // <-- Test Packet Management End
+
 
     start_shell(); 
 
     return 0;
 }
+*/

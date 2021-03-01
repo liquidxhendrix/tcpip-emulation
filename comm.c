@@ -47,12 +47,23 @@ init_udp_socket(node_t *node){
     node->udp_sock_fd = udp_sock_fd;
 }
 
+extern void
+layer2_frame_recv(node_t *node, interface_t *interface,
+                     char *pkt, unsigned int pkt_size);
+
+
+extern char * 
+pkt_buffer_shift_right(char *pkt,unsigned int pkt_size,unsigned int max_buffer_size);
+
 int
 pkt_receive(node_t *node, interface_t *interface,
             char *pkt, unsigned int pkt_size){
 
     /*Do further processing of the pkt here*/
-    //layer2_frame_recv(node, interface, pkt, pkt_size );
+    layer2_frame_recv(node, interface, pkt, pkt_size );
+
+     pkt = pkt_buffer_shift_right(pkt, pkt_size, MAX_PACKET_BUFFER_SIZE-IF_NAME_SIZE);
+
 
     //test
     printf("\nMessage Received: %s, node=%s, interface=%s\n",pkt,node->node_name,interface->interface_name);

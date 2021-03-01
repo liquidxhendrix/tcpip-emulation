@@ -8,20 +8,20 @@ init_udp_socket(node_t *node);
 
 graph_t *create_new_graph(char* topology_name){
 
-    graph_t *g = malloc(sizeof(graph_t));
+    graph_t *graph = calloc(1, sizeof(graph_t));
+    strncpy(graph->topology_name, topology_name, 32);
+    graph->topology_name[32] = '\0';
 
-    strcpy(g->topology_name,topology_name);
+    init_glthread(&graph->node_list);
 
-    init_glthread(&g->node_list);
-
-    return g;
+    return graph;
 }
 
 node_t *create_graph_node(graph_t *graph, char *node_name){
 
-    node_t *node = malloc(sizeof(node_t));
-
-    strcpy(node->node_name,node_name);
+    node_t *node = calloc(1, sizeof(node_t));
+    strncpy(node->node_name, node_name, NODE_NAME_SIZE);
+    node->node_name[NODE_NAME_SIZE-1] = '\0';
 
     init_glthread(&node->node_glue);
 

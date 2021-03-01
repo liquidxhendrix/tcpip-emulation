@@ -68,6 +68,8 @@ bool_t node_set_intf_ip_address(node_t *node, char *local_if, char *ip_addr, cha
     return true;
 }
 
+
+
 bool_t node_unset_intf_ip_address(node_t *node, char *local_if){
     assert(node);
     assert(local_if);
@@ -136,4 +138,18 @@ unsigned int convert_ip_from_str_to_int(char *ipadd){
 unsigned int convert_ip_from_int_to_str(unsigned int ip_addr, char *output_buffer){
     inet_ntop(AF_INET, &ip_addr, output_buffer, 16);
     output_buffer[15] = '/0';
+}
+
+char * 
+pkt_buffer_shift_right(char *pkt,unsigned int pkt_size,unsigned int max_buffer_size)
+{
+   
+    return memmove(pkt+(max_buffer_size-pkt_size),pkt,pkt_size);
+   
+}
+
+bool_t node_set_device_type(node_t *node, unsigned int F){
+
+    SET_BIT(node->node_nw_prop.flags, F);
+    return TRUE;
 }

@@ -36,6 +36,8 @@
 #ifndef __UTILS__
 #define __UTILS__
 
+#include <stdint.h>
+
 typedef enum{
 
   FALSE,
@@ -52,6 +54,11 @@ typedef enum{
 void apply_mask(char *prefix, char mask, char *str_prefix);
 void layer2_fill_with_broadcast_mac(char *mac_array);
 
-#define IS_MAC_BROADCAST_ADDR(mac) (0xFFFFFFFFFFFF == mac)
+#define IS_MAC_BROADCAST_ADDR(mac)   \
+    (mac[0] == 0xFF  &&  mac[1] == 0xFF && mac[2] == 0xFF && \
+     mac[3] == 0xFF  &&  mac[4] == 0xFF && mac[5] == 0xFF)
+
+#define MEMBER_SIZE(type,member) sizeof(((type *)0)->member)
+
 
 #endif /* __UTILS__ */
